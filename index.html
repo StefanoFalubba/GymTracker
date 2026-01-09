@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GymTracker - Your Personal Fitness Companion</title>
+    <meta name="description" content="Track your workouts, monitor progress, and achieve your fitness goals with GymTracker">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Auth Container (Login/Register) -->
+    <div id="auth-container" class="auth-container hidden">
+        <div class="auth-card">
+            <div class="auth-header">
+                <i data-lucide="dumbbell" class="auth-logo"></i>
+                <h1>GymTracker</h1>
+                <p>Your Personal Fitness Companion</p>
+            </div>
+            
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form">
+                <h2>Welcome Back</h2>
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i data-lucide="log-in"></i>
+                    Sign In
+                </button>
+                <p class="auth-switch">
+                    Don't have an account? 
+                    <a href="#" id="show-register">Create one</a>
+                </p>
+            </form>
+            
+            <!-- Register Form -->
+            <form id="register-form" class="auth-form hidden">
+                <h2>Create Account</h2>
+                <div class="form-group">
+                    <label for="register-name">Full Name</label>
+                    <input type="text" id="register-name" required placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" required placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" required placeholder="••••••••" minlength="6">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i data-lucide="user-plus"></i>
+                    Create Account
+                </button>
+                <p class="auth-switch">
+                    Already have an account? 
+                    <a href="#" id="show-login">Sign in</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="app-container" class="app-container hidden">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <i data-lucide="dumbbell"></i>
+                <h1>GymTracker</h1>
+            </div>
+            
+            <ul class="nav-menu">
+                <li>
+                    <a href="#dashboard" class="nav-link active" data-page="dashboard">
+                        <i data-lucide="home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#training-cards" class="nav-link" data-page="training-cards">
+                        <i data-lucide="clipboard-list"></i>
+                        <span>Training Cards</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#workout" class="nav-link" data-page="workout">
+                        <i data-lucide="activity"></i>
+                        <span>Active Workout</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#history" class="nav-link" data-page="history">
+                        <i data-lucide="calendar"></i>
+                        <span>History</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#statistics" class="nav-link" data-page="statistics">
+                        <i data-lucide="trending-up"></i>
+                        <span>Statistics</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#settings" class="nav-link" data-page="settings">
+                        <i data-lucide="settings"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <button id="logout-btn" class="btn btn-ghost btn-block">
+                    <i data-lucide="log-out"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Pages will be dynamically loaded here -->
+            <div id="page-content"></div>
+        </main>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script type="module" src="js/config.js"></script>
+    <script type="module" src="js/supabase.js"></script>
+    <script type="module" src="js/utils.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/dashboard.js"></script>
+    <script type="module" src="js/training-cards.js"></script>
+    <script type="module" src="js/workout.js"></script>
+    <script type="module" src="js/history.js"></script>
+    <script type="module" src="js/statistics.js"></script>
+    <script type="module" src="js/settings.js"></script>
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
